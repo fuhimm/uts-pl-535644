@@ -1,0 +1,390 @@
+{
+  "info": {
+    "_postman_id": "a5356440-2427-4900-b123-535644242790",
+    "name": "UTS KEPL - Manajemen Magang Kampus (Ahmad Fahim - 24/535644/SV/24279)",
+    "description": "Postman Collection v2.1 untuk pengujian RESTful API Manajemen Magang Kampus (Laravel Sanctum + CRUD Internships).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Login (200 OK - Set Token)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 200) {",
+              "    var jsonData = pm.response.json();",
+              "    if (jsonData.token) {",
+              "        pm.collectionVariables.set('token', jsonData.token);",
+              "    }",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"fahim@ugm.ac.id\",\n  \"password\": \"password123\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2. Get All Internships (200 OK)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/internships",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "internships"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3. Create Internship (201 Created)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    var jsonData = pm.response.json();",
+              "    if (jsonData.data && jsonData.data.id) {",
+              "        pm.collectionVariables.set('internship_id', jsonData.data.id);",
+              "    }",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"student_name\": \"Ahmad Fahim\",\n  \"company_name\": \"PT Telkom Indonesia\",\n  \"position\": \"DevOps & Cloud Intern\",\n  \"start_date\": \"2026-11-01\",\n  \"status\": \"Diterima\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/internships",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "internships"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "4. Get One Internship (200 OK)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/internships/{{internship_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "internships",
+            "{{internship_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "5. Update Internship (200 OK)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"student_name\": \"Ahmad Fahim\",\n  \"company_name\": \"PT Telkom Indonesia (Persero)\",\n  \"position\": \"Senior DevOps Intern\",\n  \"start_date\": \"2026-11-01\",\n  \"status\": \"Selesai\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/internships/{{internship_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "internships",
+            "{{internship_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "6. Uji Validasi Gagal (422 Unprocessable Entity)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"student_name\": \"\",\n  \"company_name\": \"\",\n  \"position\": \"\",\n  \"start_date\": \"bukan-tanggal\",\n  \"status\": \"StatusSalah\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/internships",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "internships"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "7. Uji Tanpa Token (401 Unauthorized)",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/internships",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "internships"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "8. Delete Internship (200 OK)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/internships/{{internship_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "internships",
+            "{{internship_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "9. Logout (200 OK)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/logout",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "logout"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "internship_id",
+      "value": "1",
+      "type": "string"
+    }
+  ]
+}

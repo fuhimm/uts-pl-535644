@@ -1,0 +1,20 @@
+# Abaikan file rahasia dan environment
+.env
+.env.*
+!.env.example
+backend/.env
+frontend/.env
+
+# Abaikan folder dependensi & build lokal
+backend/vendor/
+backend/node_modules/
+frontend/node_modules/
+frontend/dist/
+
+# Abaikan aset sementara / lokal di luar proyek
+*.jpeg
+*.jpg
+*.png
+screenshot/
+gemini-code-*.md
+.DS_Store
